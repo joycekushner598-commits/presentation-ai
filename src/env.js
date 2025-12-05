@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
-    DATABASE_URL: z.string().url(),
+    PRESENTATION_DB_URL: z.string().url(),
     TAVILY_API_KEY: z.string(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
@@ -11,6 +11,7 @@ export const env = createEnv({
 
     OPENAI_API_KEY: z.string(),
     TOGETHER_AI_API_KEY: z.string(),
+    GEMINI_API_KEY: z.string().optional(),
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
     UNSPLASH_ACCESS_KEY: z.string(),
@@ -25,7 +26,7 @@ export const env = createEnv({
   },
 
   runtimeEnv: {
-    DATABASE_URL: process.env.DATABASE_URL,
+    PRESENTATION_DB_URL: process.env.PRESENTATION_DB_URL,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     UNSPLASH_ACCESS_KEY: process.env.UNSPLASH_ACCESS_KEY,
@@ -33,6 +34,7 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     TOGETHER_AI_API_KEY: process.env.TOGETHER_AI_API_KEY,
+    GEMINI_API_KEY: process.env.GEMINI_API_KEY,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   },

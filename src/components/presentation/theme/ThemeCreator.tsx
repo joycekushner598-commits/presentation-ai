@@ -2,7 +2,7 @@
 
 import { createCustomTheme } from "@/app/_actions/presentation/theme-actions";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -209,6 +209,7 @@ export function ThemeCreator({ children }: { children?: ReactNode }) {
         )}
       </DialogTrigger>
       <DialogContent className="h-[60vh] max-w-5xl overflow-auto p-0">
+        <DialogTitle className="sr-only">Create Custom Theme</DialogTitle>
         <div className="flex h-full flex-col">
           <div className="flex h-[calc(60vh-120px)]">
             {/* Left Side - Controls */}

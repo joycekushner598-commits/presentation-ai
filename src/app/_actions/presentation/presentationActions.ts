@@ -5,6 +5,38 @@ import { auth } from "@/server/auth";
 import { db } from "@/server/db";
 import { type InputJsonValue } from "@prisma/client/runtime/library";
 
+// 辅助函数：获取用户ID（开发模式下使用测试用户）
+async function getUserId(): Promise<string> {
+  const skipAuth = process.env.SKIP_AUTH === "true";
+  
+  if (skipAuth) {
+    const userId = "dev-user-id";
+    
+    // 确保测试用户存在
+    const existingUser = await db.user.findUnique({
+      where: { id: userId },
+    });
+    
+    if (!existingUser) {
+      await db.user.create({
+        data: {
+          id: userId,
+          name: "开发测试用户",
+          email: "dev@test.com",
+        },
+      });
+    }
+    
+    return userId;
+  } else {
+    const session = await auth();
+    if (!session?.user) {
+      throw new Error("Unauthorized");
+    }
+    return session.user.id;
+  }
+}
+
 export async function createPresentation({
   content,
   title,
@@ -24,11 +56,7 @@ export async function createPresentation({
   presentationStyle?: string;
   language?: string;
 }) {
-  const session = await auth();
-  if (!session?.user) {
-    throw new Error("Unauthorized");
-  }
-  const userId = session.user.id;
+  const userId = await getUserId();
 
   try {
     const presentation = await db.baseDocument.create({
@@ -110,10 +138,7 @@ export async function updatePresentation({
   language?: string;
   thumbnailUrl?: string;
 }) {
-  const session = await auth();
-  if (!session?.user) {
-    throw new Error("Unauthorized");
-  }
+  const userId = await getUserId();
 
   try {
     // Extract values from content if provided there
@@ -161,9 +186,12 @@ export async function updatePresentation({
 }
 
 export async function updatePresentationTitle(id: string, title: string) {
-  const session = await auth();
-  if (!session?.user) {
-    throw new Error("Unauthorized");
+  const skipAuth = process.env.SKIP_AUTH === "true";
+  if (!skipAuth) {
+    const session = await auth();
+    if (!session?.user) {
+      throw new Error("Unauthorized");
+    }
   }
 
   try {
@@ -194,10 +222,7 @@ export async function deletePresentation(id: string) {
 }
 
 export async function deletePresentations(ids: string[]) {
-  const session = await auth();
-  if (!session?.user) {
-    throw new Error("Unauthorized");
-  }
+  const userId = await getUserId();
 
   try {
     // Delete the base documents using deleteMany (this will cascade delete the presentations)
@@ -206,7 +231,7 @@ export async function deletePresentations(ids: string[]) {
         id: {
           in: ids,
         },
-        userId: session.user.id, // Ensure only user's own presentations can be deleted
+        userId: userId, // Ensure only user's own presentations can be deleted
       },
     });
 
@@ -242,10 +267,7 @@ export async function deletePresentations(ids: string[]) {
 
 // Get the presentation with the presentation content
 export async function getPresentation(id: string) {
-  const session = await auth();
-  if (!session?.user) {
-    throw new Error("Unauthorized");
-  }
+  const userId = await getUserId();
 
   try {
     const presentation = await db.baseDocument.findUnique({
@@ -269,9 +291,15 @@ export async function getPresentation(id: string) {
 }
 
 export async function getPresentationContent(id: string) {
-  const session = await auth();
-  if (!session?.user) {
-    throw new Error("Unauthorized");
+  const skipAuth = process.env.SKIP_AUTH === "true";
+  let userId: string | undefined;
+  
+  if (!skipAuth) {
+    const session = await auth();
+    if (!session?.user) {
+      throw new Error("Unauthorized");
+    }
+    userId = session.user.id;
   }
 
   try {
@@ -296,8 +324,8 @@ export async function getPresentationContent(id: string) {
       };
     }
 
-    // Check if the user has access to this presentation
-    if (presentation.userId !== session.user.id && !presentation.isPublic) {
+    // Check if the user has access to this presentation (skip in dev mode)
+    if (!skipAuth && userId && presentation.userId !== userId && !presentation.isPublic) {
       return {
         success: false,
         message: "Unauthorized access",
@@ -318,9 +346,12 @@ export async function getPresentationContent(id: string) {
 }
 
 export async function updatePresentationTheme(id: string, theme: string) {
-  const session = await auth();
-  if (!session?.user) {
-    throw new Error("Unauthorized");
+  const skipAuth = process.env.SKIP_AUTH === "true";
+  if (!skipAuth) {
+    const session = await auth();
+    if (!session?.user) {
+      throw new Error("Unauthorized");
+    }
   }
 
   try {
@@ -344,9 +375,15 @@ export async function updatePresentationTheme(id: string, theme: string) {
 }
 
 export async function duplicatePresentation(id: string, newTitle?: string) {
-  const session = await auth();
-  if (!session?.user) {
-    throw new Error("Unauthorized");
+  const skipAuth = process.env.SKIP_AUTH === "true";
+  let userId = "development-user";
+  
+  if (!skipAuth) {
+    const session = await auth();
+    if (!session?.user) {
+      throw new Error("Unauthorized");
+    }
+    userId = session.user.id;
   }
 
   try {
@@ -371,7 +408,7 @@ export async function duplicatePresentation(id: string, newTitle?: string) {
         type: "PRESENTATION",
         documentType: "presentation",
         title: newTitle ?? `${original.title} (Copy)`,
-        userId: session.user.id,
+        userId: userId,
         isPublic: false,
         presentation: {
           create: {

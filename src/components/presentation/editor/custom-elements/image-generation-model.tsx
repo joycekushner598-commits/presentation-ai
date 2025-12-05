@@ -28,6 +28,10 @@ import { toast } from "sonner";
 
 const MODEL_OPTIONS = [
   {
+    label: "Google Gemini (nano-banana)",
+    value: "nano-banana-pro-preview",
+  },
+  {
     label: "FLUX Fast",
     value: "black-forest-labs/FLUX.1-schnell-Free",
   },
@@ -53,7 +57,7 @@ export function GenerateImageDialogContent({
   const editor = useEditorRef();
   const [prompt, setPrompt] = useState("");
   const [selectedModel, setSelectedModel] = useState<ImageModelList>(
-    "black-forest-labs/FLUX.1-schnell-Free",
+    "nano-banana-pro-preview",
   );
 
   const generateImage = async () => {

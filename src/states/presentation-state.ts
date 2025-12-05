@@ -21,7 +21,7 @@ interface PresentationState {
   imageSource: "ai" | "stock";
   stockImageProvider: "unsplash";
   presentationStyle: string;
-  modelProvider: "openai" | "ollama" | "lmstudio";
+  modelProvider: "openai" | "ollama" | "lmstudio" | "google";
   modelId: string;
   savingStatus: "idle" | "saving" | "saved";
   isPresenting: boolean;
@@ -91,7 +91,7 @@ interface PresentationState {
   setImageSource: (source: "ai" | "stock") => void;
   setStockImageProvider: (provider: "unsplash") => void;
   setPresentationStyle: (style: string) => void;
-  setModelProvider: (provider: "openai" | "ollama" | "lmstudio") => void;
+  setModelProvider: (provider: "openai" | "ollama" | "lmstudio" | "google") => void;
   setModelId: (id: string) => void;
   setSavingStatus: (status: "idle" | "saving" | "saved") => void;
   setIsPresenting: (isPresenting: boolean) => void;
@@ -142,12 +142,12 @@ export const usePresentationState = create<PresentationState>((set) => ({
   webSearchEnabled: false,
   theme: "mystique",
   customThemeData: null,
-  imageModel: "black-forest-labs/FLUX.1-schnell-Free",
-  imageSource: "stock",
+  imageModel: "nano-banana-pro-preview",
+  imageSource: "ai",
   stockImageProvider: "unsplash",
   presentationStyle: "professional",
-  modelProvider: "openai",
-  modelId: "llama3.1:8b",
+  modelProvider: "google",
+  modelId: "gemini-2.0-flash",
   slides: [], // Now holds the new slide object structure
   outlineThinking: "",
   presentationThinking: "",

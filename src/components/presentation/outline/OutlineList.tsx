@@ -16,7 +16,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { Plus } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { OutlineItem } from "./OutlineItem";
 
 interface OutlineItemType {
@@ -41,14 +41,36 @@ export function OutlineList() {
     })),
   );
 
+  // Use a ref to track if we should skip the next update (to prevent loops)
+  const skipNextSync = useRef(false);
+  
+  // Only sync FROM store TO local state when initialItems changes
   useEffect(() => {
-    setItems(
-      initialItems.map((title, index) => ({
-        id: (index + 1).toString(),
-        title,
-      })),
-    );
+    if (!skipNextSync.current) {
+      setItems(
+        initialItems.map((title, index) => ({
+          id: (index + 1).toString(),
+          title,
+        })),
+      );
+    } else {
+      skipNextSync.current = false;
+    }
   }, [initialItems]);
+
+  // Sync local items back to global outline AFTER render to avoid cross-component updates during render
+  useEffect(() => {
+    const titles = items.map((item) => item.title);
+    // Avoid feedback loop: only update store if titles differ from store's outline
+    const isSameLength = titles.length === initialItems.length;
+    const isSameContent =
+      isSameLength && titles.every((t, i) => t === initialItems[i]);
+    if (!isSameContent) {
+      skipNextSync.current = true;
+      setOutline(titles);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -65,8 +87,6 @@ export function OutlineList() {
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over.id);
         const newItems = arrayMove(items, oldIndex, newIndex);
-        // Update the outline in the store
-        setOutline(newItems.map((item) => item.title));
         return newItems;
       });
     }
@@ -77,8 +97,6 @@ export function OutlineList() {
       const newItems = items.map((item) =>
         item.id === id ? { ...item, title: newTitle } : item,
       );
-      // Update the outline in the store
-      setOutline(newItems.map((item) => item.title));
       return newItems;
     });
   };
@@ -92,15 +110,11 @@ export function OutlineList() {
         : "1";
     const newItems = [...items, { id: newId, title: "New Card" }];
     setItems(newItems);
-    // Update the outline in the store
-    setOutline(newItems.map((item) => item.title));
   };
 
   const handleDeleteCard = (id: string) => {
     setItems((items) => {
       const newItems = items.filter((item) => item.id !== id);
-      // Update the outline in the store
-      setOutline(newItems.map((item) => item.title));
       return newItems;
     });
   };

@@ -7,7 +7,9 @@ export type ThemeName =
   | "gammaDark"
   | "crimson"
   | "sunset"
-  | "forest";
+  | "forest"
+  | "ocean"
+  | "sakura";
 
 interface ThemeColors {
   primary: string;
@@ -435,6 +437,92 @@ export const themes: Record<ThemeName, ThemeProperties> = {
       dark: {
         card: "0 4px 12px rgba(52,211,153,0.15)",
         button: "0 3px 8px rgba(52,211,153,0.2)",
+      },
+    },
+  },
+
+  ocean: {
+    name: "Ocean",
+    description: "Fresh and calming ocean breeze",
+    colors: {
+      light: {
+        primary: "#0EA5E9",
+        secondary: "#06B6D4",
+        accent: "#22D3EE",
+        background: "#F0F9FF",
+        text: "#0C4A6E",
+        heading: "#075985",
+        muted: "#64748B",
+      },
+      dark: {
+        primary: "#38BDF8",
+        secondary: "#22D3EE",
+        accent: "#67E8F9",
+        background: "#0C4A6E",
+        text: "#E0F2FE",
+        heading: "#F0F9FF",
+        muted: "#94A3B8",
+      },
+    },
+    fonts: {
+      heading: "Montserrat",
+      body: "Open Sans",
+    },
+    borderRadius: "0.5rem",
+    transitions: {
+      default: "all 0.3s ease",
+    },
+    shadows: {
+      light: {
+        card: "0 4px 12px rgba(14,165,233,0.1)",
+        button: "0 2px 8px rgba(14,165,233,0.15)",
+      },
+      dark: {
+        card: "0 4px 12px rgba(56,189,248,0.2)",
+        button: "0 2px 8px rgba(56,189,248,0.25)",
+      },
+    },
+  },
+
+  sakura: {
+    name: "Sakura",
+    description: "Romantic cherry blossom elegance",
+    colors: {
+      light: {
+        primary: "#EC4899",
+        secondary: "#DB2777",
+        accent: "#F9A8D4",
+        background: "#FFF7ED",
+        text: "#78350F",
+        heading: "#5B21B6",
+        muted: "#A8A29E",
+      },
+      dark: {
+        primary: "#F9A8D4",
+        secondary: "#FBCFE8",
+        accent: "#FCE7F3",
+        background: "#450A0A",
+        text: "#FFF7ED",
+        heading: "#FDF2F8",
+        muted: "#D6D3D1",
+      },
+    },
+    fonts: {
+      heading: "Playfair Display",
+      body: "Source Sans Pro",
+    },
+    borderRadius: "0.75rem",
+    transitions: {
+      default: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+    },
+    shadows: {
+      light: {
+        card: "0 4px 16px rgba(236,72,153,0.08)",
+        button: "0 2px 8px rgba(236,72,153,0.12)",
+      },
+      dark: {
+        card: "0 4px 16px rgba(249,168,212,0.15)",
+        button: "0 2px 8px rgba(249,168,212,0.2)",
       },
     },
   },

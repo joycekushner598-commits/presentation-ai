@@ -125,7 +125,11 @@ export function PresentationGenerationManager() {
                 }
               } else {
                 // Use AI generation
+                console.log(`🤖 [Manager] Calling generateImageAction`);
+                console.log(`   - query: "${rootImage.query}"`);
+                console.log(`   - model: "${imageModel}"`);
                 result = await generateImageAction(rootImage.query, imageModel);
+                console.log(`📥 [Manager] Result:`, JSON.stringify(result, null, 2));
               }
 
               if (result?.image?.url) {
@@ -491,6 +495,9 @@ export function PresentationGenerationManager() {
   }, [shouldStartPresentationGeneration]);
 
   // Listen for manual root image generation changes (when user manually triggers image generation)
+  // Use a ref to track which slides are currently being processed to prevent duplicate generations
+  const processingSlides = useRef<Set<string>>(new Set());
+
   useEffect(() => {
     // Only process if we're not currently generating presentation or outline
     if (isGeneratingPresentation || isGeneratingOutline) {
@@ -499,64 +506,78 @@ export function PresentationGenerationManager() {
 
     // Check for any pending root image generations that need to be processed
     for (const [slideId, gen] of Object.entries(rootImageGeneration)) {
-      if (gen.status === "pending") {
-        // Find the slide to get the rootImage query
-        const slide = slides.find((s) => s.id === slideId);
-        if (slide?.rootImage?.query) {
-          void (async () => {
-            try {
-              let result;
+      // Skip if already processing this slide or if not pending
+      if (gen.status !== "pending" || processingSlides.current.has(slideId)) {
+        continue;
+      }
 
-              if (imageSource === "stock") {
-                // Use Unsplash for stock images
-                const unsplashResult = await getImageFromUnsplash(
-                  slide.rootImage!.query,
-                  slide.rootImage!.layoutType,
-                );
-                if (unsplashResult.success && unsplashResult.imageUrl) {
-                  result = { image: { url: unsplashResult.imageUrl } };
-                }
-              } else {
-                // Use AI generation
-                result = await generateImageAction(
-                  slide.rootImage!.query,
-                  imageModel,
-                );
-              }
+      // Get the current slides from state (to avoid stale closure)
+      const currentSlides = usePresentationState.getState().slides;
+      
+      // Find the slide to get the rootImage query
+      const slide = currentSlides.find((s) => s.id === slideId);
+      if (slide?.rootImage?.query) {
+        // Mark this slide as being processed to prevent duplicate requests
+        processingSlides.current.add(slideId);
+        
+        void (async () => {
+          try {
+            let result;
 
-              if (result?.image?.url) {
-                completeRootImageGeneration(slideId, result.image.url);
-                // Update the slide with the new image URL
-                setSlides(
-                  slides.map((s) =>
-                    s.id === slideId
-                      ? {
-                          ...s,
-                          rootImage: {
-                            ...s.rootImage!,
-                            url: result.image.url,
-                          },
-                        }
-                      : s,
-                  ),
-                );
-              } else {
-                failRootImageGeneration(slideId, "No image url returned");
+            if (imageSource === "stock") {
+              // Use Unsplash for stock images
+              const unsplashResult = await getImageFromUnsplash(
+                slide.rootImage!.query,
+                slide.rootImage!.layoutType,
+              );
+              if (unsplashResult.success && unsplashResult.imageUrl) {
+                result = { image: { url: unsplashResult.imageUrl } };
               }
-            } catch (err) {
-              const message =
-                err instanceof Error ? err.message : "Image generation failed";
-              failRootImageGeneration(slideId, message);
+            } else {
+              // Use AI generation
+              result = await generateImageAction(
+                slide.rootImage!.query,
+                imageModel,
+              );
             }
-          })();
-        }
+
+            if (result?.image?.url) {
+              completeRootImageGeneration(slideId, result.image.url);
+              // Update the slide with the new image URL - get fresh slides from state
+              const latestSlides = usePresentationState.getState().slides;
+              setSlides(
+                latestSlides.map((s) =>
+                  s.id === slideId
+                    ? {
+                        ...s,
+                        rootImage: {
+                          ...s.rootImage!,
+                          url: result.image.url,
+                        },
+                      }
+                    : s,
+                ),
+              );
+            } else {
+              failRootImageGeneration(slideId, "No image url returned");
+            }
+          } catch (err) {
+            const message =
+              err instanceof Error ? err.message : "Image generation failed";
+            failRootImageGeneration(slideId, message);
+          } finally {
+            // Remove from processing set when done
+            processingSlides.current.delete(slideId);
+          }
+        })();
       }
     }
   }, [
     rootImageGeneration,
     isGeneratingPresentation,
     isGeneratingOutline,
-    slides,
+    // Remove slides from dependencies to prevent infinite loop
+    // We can access the latest slides via usePresentationState.getState()
     imageSource,
     imageModel,
     completeRootImageGeneration,

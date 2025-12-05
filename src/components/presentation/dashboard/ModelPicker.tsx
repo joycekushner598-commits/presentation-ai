@@ -36,13 +36,14 @@ export function ModelPicker({
       if (savedModel) {
         console.log("Restoring model from localStorage:", savedModel);
         setModelProvider(
-          savedModel.modelProvider as "openai" | "ollama" | "lmstudio",
+          savedModel.modelProvider as "openai" | "ollama" | "lmstudio" | "google",
         );
         setModelId(savedModel.modelId);
       }
       hasRestoredFromStorage.current = true;
     }
-  }, [setModelProvider, setModelId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Use cached data if available, otherwise show fallback
   const displayData = modelsData || {

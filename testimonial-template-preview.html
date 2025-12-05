@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客户评价模板 - 预览</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        .template-info {
+            max-width: 1280px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .template-info h1 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .template-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .slide-container {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .info-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="template-info">
+            <h1>📝 客户评价模板 (Testimonial Template)</h1>
+            <p><strong>模板ID:</strong> testimonial-with-photo</p>
+            <p><strong>类别:</strong> 客户评价 / 推荐页</p>
+            <p><strong>适用场景:</strong></p>
+            <ul>
+                <li>✅ 客户推荐展示</li>
+                <li>✅ 用户评价页面</li>
+                <li>✅ 产品评论展示</li>
+                <li>✅ 案例客户介绍</li>
+            </ul>
+            <p><strong>元素清单:</strong></p>
+            <ul>
+                <li><span class="info-badge">背景图</span> 专业工作场景</li>
+                <li><span class="info-badge">主图片</span> 客户照片 (280×400px)</li>
+                <li><span class="info-badge">文字</span> 客户姓名 (最多20字)</li>
+                <li><span class="info-badge">文字</span> 星级评分 (5星)</li>
+                <li><span class="info-badge">文字</span> 评价内容 (最多300字)</li>
+                <li><span class="info-badge">装饰</span> 引号符号</li>
+            </ul>
+            <p><strong>AI 生成提示建议:</strong></p>
+            <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px; overflow-x: auto;">
+"生成一个客户评价幻灯片，包含客户姓名、5星评分和详细评论。
+评论要真实具体，描述使用产品或服务的体验。
+需要：
+- 客户姓名（英文或中文）
+- 5星评分
+- 评价内容（200-300字）
+- 配图关键词：专业人士照片"
+            </pre>
+        </div>
+
+        <div class="slide-container">
+            <div style="width: 1280px; height: 720px; position: relative; overflow: hidden; background-color: #f0f0f0;">
+                <!-- Background Image -->
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDN8fHdvbWFuJTIwd29ya2luZyUyMGxhcHRvcHxlbnwwfHx8fDE2NzY1NDU2NzY&ixlib=rb-4.0.3&q=80&w=1280"
+                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"
+                     data-ai-slot="background-image"
+                     data-image-query="woman working laptop"
+                     alt="Background">
+
+                <!-- Main Content Box (White Rectangle) -->
+                <div style="position: absolute; left: 280px; top: 130px; width: 700px; height: 460px; background-color: #ffffff; border-radius: 15px; box-shadow: 0px 10px 20px rgba(0,0,0,0.1);"></div>
+
+                <!-- Image inside Content Box (Woman with headphones) -->
+                <img src="https://images.unsplash.com/photo-1594744803329-e58b31de8f51?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fHdvbWFuJTIwd2l0aCUyMGhlYWRwaG9uZXN8ZW58MHx8fHwxNjc2NTQ0ODc2&ixlib=rb-4.0.3&q=80&w=280"
+                     style="position: absolute; left: 150px; top: 160px; width: 280px; height: 400px; object-fit: cover; border-radius: 10px;"
+                     data-ai-slot="main-image"
+                     data-image-query="woman with headphones smiling"
+                     alt="Customer Photo">
+
+                <!-- Top Left Quote Icon -->
+                <div style="position: absolute; left: 200px; top: 100px; font-size: 100px; color: #ffffff; font-family: 'Times New Roman', serif; font-weight: bold; z-index: 10; line-height: 1;"
+                     data-ai-slot="decorative-image"
+                     data-max-chars="2">"</div>
+
+                <!-- Bottom Right Quote Icon -->
+                <div style="position: absolute; left: 880px; top: 500px; font-size: 100px; color: #ffffff; font-family: 'Times New Roman', serif; font-weight: bold; z-index: 10; line-height: 1;"
+                     data-ai-slot="decorative-image"
+                     data-max-chars="2">"</div>
+
+                <!-- Name Text ("Claudia Alves") -->
+                <div style="position: absolute; left: 450px; top: 170px; font-family: 'Brush Script MT', cursive; font-size: 40px; color: #8B4513;"
+                     data-ai-slot="meta"
+                     data-max-chars="20">Claudia Alves</div>
+
+                <!-- Star Rating -->
+                <div style="position: absolute; left: 450px; top: 225px; font-size: 30px; color: #FFD700; letter-spacing: 5px;"
+                     data-ai-slot="statistic"
+                     data-max-chars="5">⭐⭐⭐⭐⭐</div>
+
+                <!-- Review Text -->
+                <div style="position: absolute; left: 450px; top: 280px; width: 480px; font-family: 'Georgia', serif; font-size: 22px; line-height: 1.5; color: #333333;"
+                     data-ai-slot="content"
+                     data-max-chars="300">Are you searching for the epitome of simplicity in fashion? Take a look at this elegant collection! I have explored its offerings three times, and each visit has revealed a delightful selection of stylish discoveries.</div>
+            </div>
+        </div>
+
+        <div class="template-info" style="margin-top: 20px;">
+            <h2>📋 元素详细说明</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">元素</th>
+                        <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">位置 (x, y)</th>
+                        <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">尺寸 (w, h)</th>
+                        <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">约束</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>背景图</strong></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">(0, 0)</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1280 × 720</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">必需</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>白色内容框</strong></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">(280, 130)</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">700 × 460</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">必需</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>客户照片</strong></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">(150, 160)</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">280 × 400</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">必需</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>客户姓名</strong></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">(450, 170)</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">480 × auto</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">最多20字</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>星级评分</strong></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">(450, 225)</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">auto × auto</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">5星</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>评价内容</strong></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">(450, 280)</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">480 × auto</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">最多300字, 8行</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 style="margin-top: 30px;">🚀 如何使用</h2>
+            <ol>
+                <li>复制 <code>testimonial-template.ts</code> 到项目的模板目录</li>
+                <li>在模板注册文件中导入并注册这个模板</li>
+                <li>AI 生成时使用推荐的提示词</li>
+                <li>系统会自动填充所有元素</li>
+            </ol>
+
+            <h2 style="margin-top: 30px;">💡 自定义建议</h2>
+            <ul>
+                <li>可以调整白色内容框的位置和大小</li>
+                <li>可以更改评分星星的颜色</li>
+                <li>可以调整文字字体和大小</li>
+                <li>可以移除引号装饰元素</li>
+                <li>可以添加公司 Logo</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

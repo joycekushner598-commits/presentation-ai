@@ -14,6 +14,7 @@ import {
 import { Image, Wand2 } from "lucide-react";
 
 export const IMAGE_MODELS: { value: ImageModelList; label: string }[] = [
+  { value: "nano-banana-pro-preview", label: "Google Gemini (nano-banana)" },
   { value: "black-forest-labs/FLUX.1-schnell-Free", label: "FLUX Fast" },
   { value: "black-forest-labs/FLUX.1-dev", label: "FLUX Developer" },
   { value: "black-forest-labs/FLUX1.1-pro", label: "FLUX Premium" },
@@ -48,7 +49,7 @@ export function ImageSourceSelector({
       <Select
         value={
           imageSource === "ai"
-            ? imageModel || "black-forest-labs/FLUX.1-schnell-Free"
+            ? imageModel || "nano-banana-pro-preview"
             : `stock-${stockImageProvider}`
         }
         onValueChange={(value) => {

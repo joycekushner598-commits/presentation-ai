@@ -1,0 +1,9 @@
+# Ignore all generated images
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+
+# But keep the .gitkeep file
+!.gitkeep

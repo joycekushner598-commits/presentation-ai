@@ -9,6 +9,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -92,6 +93,7 @@ export function ThemeModal({ children }: { children?: ReactNode }) {
         shouldHaveClose={false}
         className="h-[60vh] max-w-5xl overflow-auto"
       >
+        <DialogTitle className="sr-only">Select Presentation Theme</DialogTitle>
         <div className="flex h-full flex-col ">
           <Tabs
             defaultValue="my-themes"
