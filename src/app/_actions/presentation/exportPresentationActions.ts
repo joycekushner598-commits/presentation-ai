@@ -19,17 +19,34 @@ export async function exportPresentation(
   }>,
 ) {
   try {
-    const session = await auth();
-    if (!session?.user) {
-      return { success: false, error: "Unauthorized" };
+    const skipAuth = process.env.SKIP_AUTH === "true";
+    let userId = "development-user";
+
+    if (!skipAuth) {
+      const session = await auth();
+      if (!session?.user) {
+        return { success: false, error: "Unauthorized" };
+      }
+      userId = session.user.id;
     }
 
     // Here you would fetch the presentation data from your database
     // This is a placeholder - implement actual data fetching based on your data model
     const presentationData = await fetchPresentationData(
       presentationId,
-      session.user.id,
+      userId,
     );
+
+    console.log("[Export] Presentation data:", {
+      id: presentationData.id,
+      title: presentationData.title,
+      slidesCount: presentationData.slides?.length ?? 0,
+    });
+
+    if (!presentationData.slides || presentationData.slides.length === 0) {
+      console.error("[Export] No slides found for presentation:", presentationId);
+      return { success: false, error: "No slides found in presentation" };
+    }
 
     // Generate the PPT file (ArrayBuffer)
     const arrayBuffer = await convertPlateJSToPPTX(
@@ -48,19 +65,20 @@ export async function exportPresentation(
       fileName: `${fileName ?? "presentation"}.pptx`,
     };
   } catch (error) {
-    console.error("Error exporting presentation:", error);
-    return { success: false, error: "Failed to export presentation" };
+    console.error("[Export] Error exporting presentation:", error);
+    return { success: false, error: error instanceof Error ? error.message : "Failed to export presentation" };
   }
 }
 
 // Helper function to fetch presentation data
 async function fetchPresentationData(presentationId: string, userId: string) {
-  // Implement your actual data fetching logic here
-  // For now returning a placeholder
+  const skipAuth = process.env.SKIP_AUTH === "true";
 
-  // In a real implementation, you would fetch from your database
+  // In development mode, don't filter by userId
   const presentation = await db.baseDocument.findFirst({
-    where: { id: presentationId, userId: userId },
+    where: skipAuth
+      ? { id: presentationId }
+      : { id: presentationId, userId: userId },
     include: { presentation: true },
   });
 

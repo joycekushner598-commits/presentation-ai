@@ -13,6 +13,8 @@ interface SlidesRequest {
   modelProvider?: string; // Model provider (openai, ollama, or lmstudio)
   modelId?: string; // Specific model ID for the provider
   searchResults?: Array<{ query: string; results: unknown[] }>; // Search results for context
+  templateId?: string; // Selected slide template ID
+  templateHints?: string[]; // AI hints from the selected template
 }
 // TODO: Add table and chart to the available layouts
 const slidesTemplate = `
@@ -35,6 +37,9 @@ You are an expert presentation designer.Your task is to create an engaging prese
 
 ## RESEARCH CONTEXT
 {SEARCH_RESULTS}
+
+## TEMPLATE CONTEXT
+{TEMPLATE_HINTS}
 
 ## PRESENTATION STRUCTURE
 \`\`\`xml
@@ -208,6 +213,29 @@ Choose ONE different layout for each slide (use these exact XML tags so our pars
 </CHART>
 \`\`\`
 
+16. TESTIMONIAL: For customer reviews, testimonials, and feedback (USE THIS WHEN TEMPLATE IS SELECTED)
+\`\`\`xml
+<TESTIMONIAL template="testimonial-with-photo">
+  <NAME>Claudia Alves</NAME>
+  <RATING>5</RATING>
+  <REVIEW>This product exceeded my expectations! The quality is outstanding and the customer service was fantastic. I highly recommend it to anyone looking for a reliable solution.</REVIEW>
+  <IMG query="professional portrait of happy customer, business headshot" slot="person-photo" />
+  <IMG query="modern office workspace background" slot="background" />
+</TESTIMONIAL>
+\`\`\`
+
+17. PRODUCT-REVIEW: For product reviews in square format, great for social media (USE THIS WHEN TEMPLATE IS SELECTED)
+\`\`\`xml
+<PRODUCT-REVIEW template="product-review-square">
+  <RATING>5</RATING>
+  <REVIEW>"This product changed my life! Amazing quality and fast shipping."</REVIEW>
+  <TITLE>Customer Review</TITLE>
+  <SOCIAL>@username</SOCIAL>
+  <IMG query="professional woman portrait headshot smiling" slot="avatar-image" />
+  <IMG query="woman using phone lifestyle modern cozy" slot="background-image" />
+</PRODUCT-REVIEW>
+\`\`\`
+
 
 ## CONTENT EXPANSION STRATEGY
 For each outline point:
@@ -227,6 +255,7 @@ For each outline point:
    - Don't use the same layout more than twice in a row
 
 7. Use only the XML tags shown above. Do not invent new tags or attributes.
+8. IMPORTANT: If a template is selected (see TEMPLATE CONTEXT), use the corresponding layout tag for ALL slides. For testimonial template, use <TESTIMONIAL> tag.
 
 Now create a complete XML presentation with {TOTAL_SLIDES} slides that significantly expands on the outline.
 `;
@@ -250,6 +279,8 @@ export async function POST(req: Request) {
       modelProvider = "openai",
       modelId,
       searchResults,
+      templateId,
+      templateHints,
     } = (await req.json()) as SlidesRequest;
 
     if (!title || !outline || !Array.isArray(outline) || !language) {
@@ -297,6 +328,15 @@ export async function POST(req: Request) {
 
     const model = modelPicker(modelProvider, modelId);
 
+    // Format template hints
+    let templateHintsText = "No specific template selected - use default layouts with variety.";
+    console.log("[Template Debug] templateId:", templateId);
+    console.log("[Template Debug] templateHints:", templateHints);
+    if (templateId && templateHints && templateHints.length > 0) {
+      templateHintsText = `Selected Template: ${templateId}\n\nTemplate Guidelines:\n${templateHints.map((hint, i) => `${i + 1}. ${hint}`).join('\n')}\n\nPlease follow these template guidelines when generating the slides.`;
+      console.log("[Template Debug] Using template hints:", templateHintsText);
+    }
+
     // Format the prompt with template variables
     const formattedPrompt = slidesTemplate
       .replace(/{TITLE}/g, title)
@@ -306,7 +346,8 @@ export async function POST(req: Request) {
       .replace(/{TONE}/g, tone)
       .replace(/{OUTLINE_FORMATTED}/g, outline.join("\n\n"))
       .replace(/{TOTAL_SLIDES}/g, outline.length.toString())
-      .replace(/{SEARCH_RESULTS}/g, searchResultsText);
+      .replace(/{SEARCH_RESULTS}/g, searchResultsText)
+      .replace(/{TEMPLATE_HINTS}/g, templateHintsText);
 
     const result = streamText({
       model,

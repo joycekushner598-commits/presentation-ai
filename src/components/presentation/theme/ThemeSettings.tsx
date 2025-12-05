@@ -13,6 +13,7 @@ import { usePresentationState } from "@/states/presentation-state";
 import { useTheme } from "next-themes";
 import { ImageSourceSelector } from "./ImageSourceSelector";
 import { ThemeModal } from "./ThemeModal";
+import { TemplateSelector } from "../template/TemplateSelector";
 
 const PRESENTATION_STYLES = [
   { value: "professional", label: "Professional" },
@@ -120,6 +121,11 @@ export function ThemeSettings() {
             );
           })}
         </div>
+      </div>
+
+      {/* 幻灯片模板选择 */}
+      <div className="space-y-4 border-t pt-4">
+        <TemplateSelector />
       </div>
 
       <ImageSourceSelector

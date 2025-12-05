@@ -1,6 +1,7 @@
 import { type ImageModelList } from "@/app/_actions/image/generate";
 import { type PlateSlide } from "@/components/presentation/utils/parser";
 import { type ThemeProperties, type Themes } from "@/lib/presentation/themes";
+import { type SlideTemplateId } from "@/lib/presentation/templates";
 import { type TElement } from "platejs";
 import { create } from "zustand";
 
@@ -27,6 +28,10 @@ interface PresentationState {
   isPresenting: boolean;
   currentSlideIndex: number;
   isThemeCreatorOpen: boolean;
+
+  // 幻灯片模板选择
+  selectedSlideTemplate: SlideTemplateId | null;
+  setSelectedSlideTemplate: (templateId: SlideTemplateId | null) => void;
 
   config: Record<string, unknown>;
   setConfig: (config: Record<string, unknown>) => void;
@@ -157,6 +162,10 @@ export const usePresentationState = create<PresentationState>((set) => ({
   currentSlideIndex: 0,
   isThemeCreatorOpen: false,
   config: {},
+
+  // 模板选择初始状态
+  selectedSlideTemplate: null,
+  setSelectedSlideTemplate: (templateId) => set({ selectedSlideTemplate: templateId }),
   pendingInsertNode: null,
 
   // Sidebar states

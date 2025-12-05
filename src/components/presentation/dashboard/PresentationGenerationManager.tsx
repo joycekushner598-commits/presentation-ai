@@ -4,6 +4,7 @@ import { generateImageAction } from "@/app/_actions/image/generate";
 import { getImageFromUnsplash } from "@/app/_actions/image/unsplash";
 import { updatePresentation } from "@/app/_actions/presentation/presentationActions";
 import { extractThinking } from "@/lib/thinking-extractor";
+import { slideTemplates } from "@/lib/presentation/templates";
 import { usePresentationState } from "@/states/presentation-state";
 import { useChat, useCompletion } from "@ai-sdk/react";
 import { useEffect, useRef } from "react";
@@ -84,6 +85,10 @@ export function PresentationGenerationManager() {
     const processedPresentationCompletion = stripXmlCodeBlock(
       presentationContentToParse,
     );
+
+    // Debug: Log the raw AI XML output
+    console.log("[AI Raw XML] First 500 chars:", processedPresentationCompletion.substring(0, 500));
+
     streamingParserRef.current.reset();
     streamingParserRef.current.parseChunk(processedPresentationCompletion);
     streamingParserRef.current.finalize();
@@ -152,12 +157,12 @@ export function PresentationGenerationManager() {
                   usePresentationState.getState().slides.map((s) =>
                     s.id === slideId
                       ? {
-                          ...s,
-                          rootImage: {
-                            query: rootImage.query,
-                            url: result.image.url,
-                          },
-                        }
+                        ...s,
+                        rootImage: {
+                          query: rootImage.query,
+                          url: result.image.url,
+                        },
+                      }
                       : s,
                   ),
                 );
@@ -473,7 +478,14 @@ export function PresentationGenerationManager() {
         modelProvider,
         modelId,
         setThumbnailUrl,
+        selectedSlideTemplate,
       } = usePresentationState.getState();
+
+      // Get the selected template if any
+      const template = selectedSlideTemplate ? slideTemplates[selectedSlideTemplate] : null;
+      console.log("[Template Debug] selectedSlideTemplate from state:", selectedSlideTemplate);
+      console.log("[Template Debug] template object:", template);
+      console.log("[Template Debug] template?.aiPromptHints:", template?.aiPromptHints);
 
       // Reset the parser before starting a new generation
       streamingParserRef.current.reset();
@@ -489,6 +501,9 @@ export function PresentationGenerationManager() {
           tone: presentationStyle,
           modelProvider,
           modelId,
+          // Pass template information to AI
+          templateId: template?.id,
+          templateHints: template?.aiPromptHints,
         },
       });
     }
@@ -513,13 +528,13 @@ export function PresentationGenerationManager() {
 
       // Get the current slides from state (to avoid stale closure)
       const currentSlides = usePresentationState.getState().slides;
-      
+
       // Find the slide to get the rootImage query
       const slide = currentSlides.find((s) => s.id === slideId);
       if (slide?.rootImage?.query) {
         // Mark this slide as being processed to prevent duplicate requests
         processingSlides.current.add(slideId);
-        
+
         void (async () => {
           try {
             let result;
@@ -549,12 +564,12 @@ export function PresentationGenerationManager() {
                 latestSlides.map((s) =>
                   s.id === slideId
                     ? {
-                        ...s,
-                        rootImage: {
-                          ...s.rootImage!,
-                          url: result.image.url,
-                        },
-                      }
+                      ...s,
+                      rootImage: {
+                        ...s.rootImage!,
+                        url: result.image.url,
+                      },
+                    }
                     : s,
                 ),
               );

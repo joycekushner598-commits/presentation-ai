@@ -67,7 +67,7 @@ export const testimonialTemplate: SlideTemplate = {
     width: 1280,
     height: 720,
   },
-  
+
   elements: [
     // 1. 背景图片
     {
@@ -235,11 +235,13 @@ export const testimonialTemplate: SlideTemplate = {
 
   // AI 生成提示建议
   aiPromptHints: [
-    '生成客户评价，包含客户姓名、5星评分和详细评论',
-    '评论内容要真实、具体、有细节',
-    '姓名不超过20字符',
-    '评价内容不超过300字符',
-    '图片：客户专业照片和相关背景图',
+    '【重要】使用 <TESTIMONIAL> 标签来生成每一张幻灯片，不要使用其他布局标签',
+    '每张幻灯片结构：<TESTIMONIAL template="testimonial-with-photo"><NAME>客户名</NAME><RATING>5</RATING><REVIEW>评价内容</REVIEW><IMG query="..." slot="person-photo" /><IMG query="..." slot="background" /></TESTIMONIAL>',
+    '客户姓名要简短自然（如 "张明" "Sarah Johnson"）',
+    '评价内容要真实、具体、有感情，不超过300字符',
+    '图片 slot="person-photo" 的查询词应该是专业人像照：professional portrait, business headshot, smiling customer',
+    '图片 slot="background" 的查询词应该是工作场景：modern office, workspace, professional environment',
+    '每张幻灯片展示不同客户的评价',
   ],
 };
 

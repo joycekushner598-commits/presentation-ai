@@ -121,6 +121,14 @@ const PresentationEditor = React.memo(
       };
     }, [debouncedOnChange]);
 
+    // Check if current slide is a template slide
+    const isTemplate = React.useMemo(() => {
+      if (!initialContent?.content || initialContent.content.length === 0) return false;
+      const firstElement = initialContent.content[0] as { type?: string };
+      // Import this constant or copy it if not available
+      return firstElement?.type === "template-slide";
+    }, [initialContent]);
+
     return (
       <TooltipProvider>
         <div
@@ -139,9 +147,11 @@ const PresentationEditor = React.memo(
           style={{
             borderRadius: "var(--presentation-border-radius, 0.5rem)",
             backgroundColor: initialContent?.bgColor || undefined,
+            // Force 16:9 for templates
+            aspectRatio: isTemplate ? "16/9" : undefined,
             backgroundImage:
               initialContent?.layoutType === "background" &&
-              initialContent?.rootImage?.url
+                initialContent?.rootImage?.url
                 ? `url(${initialContent.rootImage.url})`
                 : undefined,
             backgroundSize: "cover",
@@ -177,8 +187,10 @@ const PresentationEditor = React.memo(
               <Editor
                 className={cn(
                   className,
-                  "flex flex-col border-none !bg-transparent py-12 outline-none h-full",
-                  (readOnly || isGenerating) && "px-16",
+                  "flex flex-col border-none !bg-transparent outline-none h-full",
+                  // Remove padding for templates
+                  !isTemplate && "py-12",
+                  !isTemplate && (readOnly || isGenerating) && "px-16",
                   !initialContent?.alignment && "justify-center",
                   initialContent?.alignment === "start" && "justify-start",
                   initialContent?.alignment === "center" && "justify-center",

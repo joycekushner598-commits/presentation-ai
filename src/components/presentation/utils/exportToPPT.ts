@@ -4,6 +4,8 @@ import {
   type TElement,
 } from "platejs";
 import PptxGenJS from "pptxgenjs";
+import * as fs from "fs";
+import * as path from "path";
 import {
   type TArrowListElement,
   type TArrowListItemElement,
@@ -42,6 +44,7 @@ import {
   type ImageElement,
   type ParagraphElement,
 } from "./types";
+import { slideTemplates } from "@/lib/presentation/templates";
 
 // Type guards for text nodes
 interface TextNode {
@@ -162,6 +165,53 @@ export class PlateJSToPPTXConverter {
     return lum > 186; // common threshold
   }
 
+  /**
+   * Resolve image path - converts local paths to base64 data URIs
+   * @param imagePath - The image path (can be URL, local path, or data URI)
+   * @returns Resolved path/data URI or null if cannot be resolved
+   */
+  private resolveImagePath(imagePath: string): string | null {
+    // Already a data URI or remote URL
+    if (imagePath.startsWith("data:") || imagePath.startsWith("http")) {
+      return imagePath;
+    }
+
+    // Local path starting with /
+    if (imagePath.startsWith("/")) {
+      try {
+        // Convert to absolute filesystem path
+        const publicPath = path.join(process.cwd(), "public", imagePath);
+
+        if (fs.existsSync(publicPath)) {
+          // Read file and convert to base64
+          const fileBuffer = fs.readFileSync(publicPath);
+          const base64 = fileBuffer.toString("base64");
+
+          // Determine MIME type from extension
+          const ext = path.extname(imagePath).toLowerCase();
+          const mimeTypes: Record<string, string> = {
+            ".png": "image/png",
+            ".jpg": "image/jpeg",
+            ".jpeg": "image/jpeg",
+            ".gif": "image/gif",
+            ".webp": "image/webp",
+          };
+          const mimeType = mimeTypes[ext] || "image/png";
+
+          return `data:${mimeType};base64,${base64}`;
+        } else {
+          console.warn(`Local image not found: ${publicPath}`);
+          return null;
+        }
+      } catch (error) {
+        console.warn(`Failed to read local image: ${imagePath}`, error);
+        return null;
+      }
+    }
+
+    return null;
+  }
+
   public async convertToPPTX(
     presentationData: PresentationData,
   ): Promise<PptxGenJS> {
@@ -236,8 +286,16 @@ export class PlateJSToPPTXConverter {
 
     const imagePath = rootImage.url as string;
 
+    // Resolve the image path (handles local paths, URLs, and data URIs)
+    const resolvedPath = this.resolveImagePath(imagePath);
+    if (!resolvedPath) {
+      console.warn(`Could not resolve root image: ${imagePath}`);
+      return;
+    }
+
     let imageOptions: PptxGenJS.ImageProps = {
-      path: imagePath,
+      data: resolvedPath.startsWith("data:") ? resolvedPath : undefined,
+      path: resolvedPath.startsWith("data:") ? undefined : resolvedPath,
       x: 0, // No margins as requested
       y: 0, // No padding as requested
       w: this.SLIDE_WIDTH,
@@ -504,6 +562,14 @@ export class PlateJSToPPTXConverter {
       case "img":
         return await this.addImage(
           element as ImageElement,
+          x,
+          y,
+          width,
+          measureOnly,
+        );
+      case "template-slide":
+        return await this.addTemplateSlide(
+          element as any,
           x,
           y,
           width,
@@ -1745,6 +1811,188 @@ export class PlateJSToPPTXConverter {
   private getCycleColor(index: number): string {
     const colors = ["4472C4", "70AD47", "FFC000", "C5504B"];
     return colors[index % colors.length] ?? "4472C4";
+  }
+
+  private parseColor(color: string): { hex: string; transparency?: number } {
+    if (!color) return { hex: "000000" };
+    if (color.startsWith("#")) return { hex: color.replace("#", "") };
+
+    // Handle rgba(r, g, b, a)
+    const rgbaMatch = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+    if (rgbaMatch) {
+      const r = parseInt(rgbaMatch[1]).toString(16).padStart(2, "0");
+      const g = parseInt(rgbaMatch[2]).toString(16).padStart(2, "0");
+      const b = parseInt(rgbaMatch[3]).toString(16).padStart(2, "0");
+      const aStr = rgbaMatch[4];
+
+      let transparency = 0;
+      if (aStr !== undefined) {
+        // Web alpha: 1 is opaque, 0 is transparent.
+        // PPT transparency: 0 is opaque, 100 is transparent.
+        const alpha = parseFloat(aStr);
+        transparency = Math.round((1 - alpha) * 100);
+      }
+
+      return { hex: `${r}${g}${b}`, transparency };
+    }
+
+    return { hex: color };
+  }
+
+  /**
+   * Add a template-based slide to the PPT
+   * Uses template definition for precise positioning
+   */
+  private async addTemplateSlide(
+    element: {
+      templateId: string;
+      content: Record<string, string>;
+      images: Record<string, string>;
+    },
+    x: number,
+    y: number,
+    width: number,
+    measureOnly = false,
+  ): Promise<number> {
+    if (measureOnly) return this.SLIDE_HEIGHT - this.MARGIN * 2;
+    if (!this.currentSlide) return 0;
+
+    const { templateId, content, images } = element;
+    const template = slideTemplates[templateId];
+
+    if (!template) {
+      console.warn(`Template not found: ${templateId}`);
+      return 0;
+    }
+
+    // Calculate scale factor from template size to PPT slide size
+    // Use uniform scaling to maintain aspect ratio (fit within slide)
+    const scale = Math.min(
+      this.SLIDE_WIDTH / template.size.width,
+      this.SLIDE_HEIGHT / template.size.height
+    );
+
+    // Center the template content on the slide
+    const offsetX = (this.SLIDE_WIDTH - template.size.width * scale) / 2;
+    const offsetY = (this.SLIDE_HEIGHT - template.size.height * scale) / 2;
+
+    // Sort elements by zIndex to render in correct order
+    const sortedElements = [...template.elements].sort(
+      (a, b) => (a.style.zIndex ?? 0) - (b.style.zIndex ?? 0)
+    );
+
+    // Render each element from the template
+    for (const el of sortedElements) {
+      const { id, type, position, size, style, slot, exampleContent } = el;
+
+      // Calculate PPT coordinates with centering offset
+      const pptX = position.x * scale + offsetX;
+      const pptY = position.y * scale + offsetY;
+      const pptW = typeof size.width === "number" ? size.width * scale : 2;
+      const pptH = typeof size.height === "number" ? size.height * scale : 1;
+
+      // Get content for this element
+      const textContent = content[slot] ?? content[id] ?? exampleContent ?? "";
+      const imageUrl = images[slot] ?? images[id];
+
+      switch (type) {
+        case "background":
+          // Check if this background element has an image
+          const bgImageUrl = imageUrl || el.imageQuery;
+          if (bgImageUrl) {
+            // Background with image
+            const resolvedBgPath = this.resolveImagePath(bgImageUrl);
+            if (resolvedBgPath) {
+              try {
+                this.currentSlide.addImage({
+                  data: resolvedBgPath.startsWith("data:") ? resolvedBgPath : undefined,
+                  path: resolvedBgPath.startsWith("data:") ? undefined : resolvedBgPath,
+                  x: pptX,
+                  y: pptY,
+                  w: pptW,
+                  h: pptH,
+                  sizing: { type: "cover", w: pptW, h: pptH },
+                });
+              } catch (e) {
+                console.warn(`Failed to add background image:`, e);
+              }
+            }
+          } else if (style.backgroundColor) {
+            // Pure color background / shape
+            const { hex, transparency } = this.parseColor(style.backgroundColor);
+
+            this.currentSlide.addShape(this.pptx.ShapeType.rect, {
+              x: pptX,
+              y: pptY,
+              w: pptW,
+              h: pptH,
+              fill: { color: hex, transparency },
+              line: { width: 0 },
+              shadow: style.boxShadow ? {
+                type: "outer",
+                blur: 10,
+                offset: 5,
+                angle: 45,
+                opacity: 0.3,
+              } : undefined,
+            });
+          }
+          break;
+
+        case "text":
+          if (textContent) {
+            // Calculate font size - use a fixed ratio for better consistency
+            const baseFontSize = style.fontSize || 14;
+            // PPT uses points, template uses pixels.
+            // We must scale the font size according to the overall slide scaling.
+            // scale is (inches / pixel).
+            // fontSize (points) = fontSize (pixels) * scale (inches/pixel) * 72 (points/inch)
+            const fontSize = Math.round(baseFontSize * scale * 72);
+            const { hex: colorHex } = this.parseColor(style.color || this.THEME.text);
+
+            this.currentSlide.addText(textContent, {
+              x: pptX,
+              y: pptY,
+              w: pptW,
+              h: pptH,
+              fontSize: Math.max(8, Math.min(fontSize, 72)),
+              fontFace: style.fontFamily?.replace(/'/g, "") || "Inter",
+              bold: style.fontWeight === "bold" || (style.fontWeight as number) >= 600,
+              color: colorHex,
+              align: (style.textAlign as "left" | "center" | "right") || "left",
+              valign: "top",
+              margin: 0, // Remove default internal margin to maximize space
+              wrap: true,
+              fit: "shrink", // Add shrink to fit to prevent overflow
+            });
+          }
+          break;
+
+        case "image":
+          const imgUrl = imageUrl || el.imageQuery;
+          if (imgUrl) {
+            const resolvedPath = this.resolveImagePath(imgUrl);
+            if (resolvedPath) {
+              try {
+                this.currentSlide.addImage({
+                  data: resolvedPath.startsWith("data:") ? resolvedPath : undefined,
+                  path: resolvedPath.startsWith("data:") ? undefined : resolvedPath,
+                  x: pptX,
+                  y: pptY,
+                  w: pptW,
+                  h: pptH,
+                  sizing: { type: "cover", w: pptW, h: pptH },
+                });
+              } catch (e) {
+                console.warn(`Failed to add template image:`, e);
+              }
+            }
+          }
+          break;
+      }
+    }
+
+    return this.SLIDE_HEIGHT - this.MARGIN * 2;
   }
 }
 

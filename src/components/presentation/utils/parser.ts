@@ -79,6 +79,10 @@ import {
   type ParagraphElement,
   type TChartElement,
 } from "./types";
+import {
+  type TTemplateSlideElement,
+  TEMPLATE_SLIDE_ELEMENT,
+} from "../editor/plugins/template-slide-plugin";
 
 // Union type for all possible Plate elements
 export type PlateNode =
@@ -118,7 +122,8 @@ export type PlateNode =
   | TButtonElement
   | TTableElement
   | TTableRowElement
-  | TTableCellElement;
+  | TTableCellElement
+  | TTemplateSlideElement;
 
 export type LayoutType = "left" | "right" | "vertical" | "background";
 export type RootImage = {
@@ -174,7 +179,7 @@ export class SlideParser {
     const isFullContent =
       chunk.length >= this.lastInputLength &&
       chunk.substring(0, this.lastInputLength) ===
-        this.buffer.substring(0, this.lastInputLength);
+      this.buffer.substring(0, this.lastInputLength);
 
     // If we're getting the full content (previous + new),
     // we only want to process what's new
@@ -600,6 +605,7 @@ export class SlideParser {
    */
   private processTopLevelNode(node: XMLNode): PlateNode | null {
     const tag = node.tag.toUpperCase();
+    console.log("[Parser] Processing top-level tag:", tag);
 
     // Handle each possible top-level element type
     switch (tag) {
@@ -669,10 +675,89 @@ export class SlideParser {
       case "TIMELINE":
         return this.createTimeline(node);
 
+      // Template-based layouts
+      case "TESTIMONIAL":
+      case "TEMPLATE-SLIDE":
+      case "PRODUCT-REVIEW":
+        return this.createTemplateSlide(node);
+
       default:
         console.warn(`Unknown top-level tag: ${tag}`);
         return null;
     }
+  }
+
+  /**
+   * Create a template-based slide element
+   */
+  private createTemplateSlide(node: XMLNode): TTemplateSlideElement {
+    console.log("[Template Parser] Creating template slide from node:", node.tag);
+
+    // Infer default template ID based on tag name
+    let defaultTemplateId = "testimonial-with-photo";
+    if (node.tag.toUpperCase() === "PRODUCT-REVIEW") {
+      defaultTemplateId = "product-review-square";
+    }
+
+    // Extract template ID from attributes or use default
+    const templateId = node.attributes.template ?? node.attributes.id ?? defaultTemplateId;
+    console.log("[Template Parser] Template ID:", templateId);
+
+    // Extract content from child elements
+    const content: Record<string, string> = {};
+    const images: Record<string, string> = {};
+
+    for (const child of node.children) {
+      const tag = child.tag.toUpperCase();
+      const slot = child.attributes.slot ?? child.tag.toLowerCase();
+
+      switch (tag) {
+        case "CUSTOMER-NAME":
+        case "NAME":
+          content["customer-name"] = this.getTextContent(child);
+          break;
+        case "RATING":
+          const ratingText = this.getTextContent(child);
+          // Try to parse as number
+          const ratingNum = parseInt(ratingText.trim());
+          if (!isNaN(ratingNum) && ratingNum > 0 && ratingNum <= 5) {
+            // Convert to star characters
+            content["star-rating"] = "★".repeat(ratingNum);
+          } else {
+            // Keep original text if not a simple number
+            content["star-rating"] = ratingText;
+          }
+          break;
+        case "REVIEW":
+        case "TEXT":
+        case "CONTENT":
+          content["review-text"] = this.getTextContent(child);
+          break;
+        case "TITLE":
+          content["title"] = this.getTextContent(child);
+          break;
+        case "SOCIAL":
+          content["social-handle"] = this.getTextContent(child);
+          break;
+        case "IMG":
+        case "IMAGE":
+          const query = child.attributes.query ?? child.attributes.src ?? "";
+          const slotName = child.attributes.slot ?? "person-photo";
+          images[slotName] = query;
+          break;
+        default:
+          // Generic slot mapping
+          content[slot] = this.getTextContent(child);
+      }
+    }
+
+    return {
+      type: TEMPLATE_SLIDE_ELEMENT,
+      templateId,
+      content,
+      images,
+      children: [{ text: "" }],
+    };
   }
 
   /**
@@ -1340,7 +1425,18 @@ export class SlideParser {
   }
 
   /**
-   * Create Before/After layout
+   * Helper to extract text content from a node
+   */
+  private getTextContent(node: XMLNode): string {
+    if (node.content) return node.content;
+    if (node.children && node.children.length > 0) {
+      return node.children.map(child => this.getTextContent(child)).join(" ");
+    }
+    return "";
+  }
+
+  /**
+   * Create Compare layout
    */
   private createBeforeAfter(node: XMLNode): TBeforeAfterGroupElement {
     const sides: TBeforeAfterSideElement[] = [];
@@ -1451,13 +1547,13 @@ export class SlideParser {
               cellChildren.length > 0
                 ? cellChildren
                 : ([
-                    {
-                      type: "p",
-                      children: [
-                        { text: cellNode.content?.trim?.() || "" } as TText,
-                      ],
-                    },
-                  ] as unknown as Descendant[]),
+                  {
+                    type: "p",
+                    children: [
+                      { text: cellNode.content?.trim?.() || "" } as TText,
+                    ],
+                  },
+                ] as unknown as Descendant[]),
           } as unknown as TTableCellElement;
 
           cells.push(cell);
@@ -1643,8 +1739,8 @@ export class SlideParser {
 
     const variant: "filled" | "outline" | "ghost" | undefined =
       variantAttr === "filled" ||
-      variantAttr === "outline" ||
-      variantAttr === "ghost"
+        variantAttr === "outline" ||
+        variantAttr === "ghost"
         ? (variantAttr as "filled" | "outline" | "ghost")
         : undefined;
 
@@ -1787,7 +1883,7 @@ export class SlideParser {
     const plateNodes: PlateNode[] = [];
 
     // Scan through nodes to group consecutive LI tags into a single generic list (Plate list) group
-    for (let i = 0; i < nodes.length; ) {
+    for (let i = 0; i < nodes.length;) {
       const node = nodes[i];
       if (!node) {
         i += 1;

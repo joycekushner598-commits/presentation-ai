@@ -79,6 +79,9 @@ import {
   RadarChartStaticPlugin,
   ScatterChartStaticPlugin,
 } from "./chart-plugin";
+import { TEMPLATE_SLIDE_ELEMENT } from "./template-slide-plugin";
+import { TemplateSlideElementStatic } from "../custom-elements/static/template-slide-static";
+
 export const PresentationStaticCustomKit = [
   createTPlatePlugin({
     key: ARROW_LIST,
@@ -223,5 +226,10 @@ export const PresentationStaticCustomKit = [
   createTPlatePlugin({
     key: "generating",
     node: { isLeaf: true, component: GeneratingLeafStatic },
+  }),
+  // Template slide element
+  createTPlatePlugin({
+    key: TEMPLATE_SLIDE_ELEMENT,
+    node: { isElement: true, isVoid: true, component: TemplateSlideElementStatic },
   }),
 ];
