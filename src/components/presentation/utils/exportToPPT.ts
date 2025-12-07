@@ -133,7 +133,8 @@ export class PlateJSToPPTXConverter {
   };
 
   constructor(theme?: Partial<ThemeColors>) {
-    this.pptx = new PptxGenJS();
+    const PptxGen = (PptxGenJS as any).default || PptxGenJS;
+    this.pptx = new PptxGen();
     this.setupPresentation();
     if (theme) this.applyTheme(theme);
   }
@@ -1848,6 +1849,7 @@ export class PlateJSToPPTXConverter {
       templateId: string;
       content: Record<string, string>;
       images: Record<string, string>;
+      links?: Record<string, string>;  // Optional: slot -> URL mapping for hyperlinks
     },
     x: number,
     y: number,
@@ -1857,7 +1859,7 @@ export class PlateJSToPPTXConverter {
     if (measureOnly) return this.SLIDE_HEIGHT - this.MARGIN * 2;
     if (!this.currentSlide) return 0;
 
-    const { templateId, content, images } = element;
+    const { templateId, content, images, links = {} } = element;
     const template = slideTemplates[templateId];
 
     if (!template) {
@@ -1894,6 +1896,10 @@ export class PlateJSToPPTXConverter {
       // Get content for this element
       const textContent = content[slot] ?? content[id] ?? exampleContent ?? "";
       const imageUrl = images[slot] ?? images[id];
+
+      // Debug: Log all elements being processed  
+      console.log(`[PPT Debug] Processing: type=${type}, slot=${slot}, id=${id}, textContent="${String(textContent).substring(0, 30)}"`);
+
 
       switch (type) {
         case "background":
@@ -1950,21 +1956,50 @@ export class PlateJSToPPTXConverter {
             const fontSize = Math.round(baseFontSize * scale * 72);
             const { hex: colorHex } = this.parseColor(style.color || this.THEME.text);
 
-            this.currentSlide.addText(textContent, {
-              x: pptX,
-              y: pptY,
-              w: pptW,
-              h: pptH,
-              fontSize: Math.max(8, Math.min(fontSize, 72)),
-              fontFace: style.fontFamily?.replace(/'/g, "") || "Inter",
-              bold: style.fontWeight === "bold" || (style.fontWeight as number) >= 600,
-              color: colorHex,
-              align: (style.textAlign as "left" | "center" | "right") || "left",
-              valign: "top",
-              margin: 0, // Remove default internal margin to maximize space
-              wrap: true,
-              fit: "shrink", // Add shrink to fit to prevent overflow
-            });
+            // Check if this slot has a hyperlink
+            const linkUrl = links[slot] ?? links[id];
+
+            if (linkUrl) {
+              // Use TextProps array format for hyperlink support
+              this.currentSlide.addText([{
+                text: textContent,
+                options: {
+                  hyperlink: { url: linkUrl },
+                  color: '0066CC',  // Blue color for links
+                  underline: { style: 'sng' },
+                }
+              }], {
+                x: pptX,
+                y: pptY,
+                w: pptW,
+                h: pptH,
+                fontSize: Math.max(8, Math.min(fontSize, 72)),
+                fontFace: style.fontFamily?.replace(/'/g, "") || "Inter",
+                bold: style.fontWeight === "bold" || (style.fontWeight as number) >= 600,
+                align: (style.textAlign as "left" | "center" | "right") || "left",
+                valign: "top",
+                margin: 0,
+                wrap: true,
+                fit: "shrink",
+              });
+            } else {
+              // Regular text without hyperlink
+              this.currentSlide.addText(textContent, {
+                x: pptX,
+                y: pptY,
+                w: pptW,
+                h: pptH,
+                fontSize: Math.max(8, Math.min(fontSize, 72)),
+                fontFace: style.fontFamily?.replace(/'/g, "") || "Inter",
+                bold: style.fontWeight === "bold" || (style.fontWeight as number) >= 600,
+                color: colorHex,
+                align: (style.textAlign as "left" | "center" | "right") || "left",
+                valign: "top",
+                margin: 0,
+                wrap: true,
+                fit: "shrink",
+              });
+            }
           }
           break;
 

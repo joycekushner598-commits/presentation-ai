@@ -1,0 +1,1214 @@
+{
+  "size": {
+    "width": 1080,
+    "height": 1080
+  },
+  "elements": [
+    {
+      "id": "image-1",
+      "type": "background",
+      "slot": "background-image",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 1080,
+        "height": 1080
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 1,
+        "borderRadius": 540
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-2",
+      "type": "background",
+      "slot": "decoration-2",
+      "position": {
+        "x": 6,
+        "y": 3
+      },
+      "size": {
+        "width": 264,
+        "height": 539
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 2
+      },
+      "optional": false
+    },
+    {
+      "id": "image-3",
+      "type": "image",
+      "slot": "main-image",
+      "position": {
+        "x": 19,
+        "y": 16
+      },
+      "size": {
+        "width": 236,
+        "height": 512
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 3
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-4",
+      "type": "background",
+      "slot": "decoration-4",
+      "position": {
+        "x": 118,
+        "y": 21
+      },
+      "size": {
+        "width": 37,
+        "height": 5
+      },
+      "style": {
+        "backgroundColor": "#F0E9E3",
+        "zIndex": 4
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-5",
+      "type": "background",
+      "slot": "decoration-5",
+      "position": {
+        "x": 166,
+        "y": 20
+      },
+      "size": {
+        "width": 7,
+        "height": 7
+      },
+      "style": {
+        "backgroundColor": "#F0E9E3",
+        "zIndex": 5
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-6",
+      "type": "background",
+      "slot": "decoration-6",
+      "position": {
+        "x": 0,
+        "y": 72
+      },
+      "size": {
+        "width": 3,
+        "height": 22
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 6
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-7",
+      "type": "background",
+      "slot": "decoration-7",
+      "position": {
+        "x": 0,
+        "y": 111
+      },
+      "size": {
+        "width": 3,
+        "height": 40
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 7
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-8",
+      "type": "background",
+      "slot": "decoration-8",
+      "position": {
+        "x": 0,
+        "y": 160
+      },
+      "size": {
+        "width": 3,
+        "height": 41
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 8
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-9",
+      "type": "background",
+      "slot": "decoration-9",
+      "position": {
+        "x": 272,
+        "y": 124
+      },
+      "size": {
+        "width": 3,
+        "height": 65
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 9
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-10",
+      "type": "background",
+      "slot": "decoration-10",
+      "position": {
+        "x": 3,
+        "y": 0
+      },
+      "size": {
+        "width": 269,
+        "height": 544
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 10
+      },
+      "optional": false
+    },
+    {
+      "id": "image-11",
+      "type": "image",
+      "slot": "main-image",
+      "position": {
+        "x": 108,
+        "y": 656
+      },
+      "size": {
+        "width": 550,
+        "height": 213
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 11
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-12",
+      "type": "background",
+      "slot": "decoration-12",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 225,
+        "height": 140
+      },
+      "style": {
+        "backgroundColor": "#FFFFFF",
+        "zIndex": 12
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-13",
+      "type": "background",
+      "slot": "decoration-13",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 667,
+        "height": 666
+      },
+      "style": {
+        "backgroundColor": "#FFFFFF",
+        "zIndex": 13
+      },
+      "optional": false
+    },
+    {
+      "id": "image-14",
+      "type": "image",
+      "slot": "avatar-image",
+      "position": {
+        "x": 157,
+        "y": 530
+      },
+      "size": {
+        "width": 30,
+        "height": 28
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 14,
+        "borderRadius": 15
+      },
+      "optional": false
+    },
+    {
+      "id": "image-15",
+      "type": "image",
+      "slot": "avatar-image",
+      "position": {
+        "x": 195,
+        "y": 530
+      },
+      "size": {
+        "width": 30,
+        "height": 28
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 15,
+        "borderRadius": 15
+      },
+      "optional": false
+    },
+    {
+      "id": "image-16",
+      "type": "image",
+      "slot": "avatar-image",
+      "position": {
+        "x": 232,
+        "y": 530
+      },
+      "size": {
+        "width": 30,
+        "height": 28
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 16,
+        "borderRadius": 15
+      },
+      "optional": false
+    },
+    {
+      "id": "image-17",
+      "type": "image",
+      "slot": "avatar-image",
+      "position": {
+        "x": 269,
+        "y": 530
+      },
+      "size": {
+        "width": 30,
+        "height": 28
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 17,
+        "borderRadius": 15
+      },
+      "optional": false
+    },
+    {
+      "id": "image-18",
+      "type": "image",
+      "slot": "avatar-image",
+      "position": {
+        "x": 307,
+        "y": 530
+      },
+      "size": {
+        "width": 30,
+        "height": 28
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 18,
+        "borderRadius": 15
+      },
+      "optional": false
+    },
+    {
+      "id": "text-19",
+      "type": "text",
+      "slot": "review",
+      "position": {
+        "x": 156,
+        "y": 573
+      },
+      "size": {
+        "width": 461,
+        "height": 155
+      },
+      "style": {
+        "fontSize": 21,
+        "fontFamily": "TT Norms",
+        "color": "#000000",
+        "textAlign": "left",
+        "zIndex": 19
+      },
+      "constraints": {
+        "maxChars": 256,
+        "overflowStrategy": "auto-scale"
+      },
+      "exampleContent": "I love using these products. There is no sticky feeling after applying the lotion. Now I can use thi"
+    },
+    {
+      "id": "text-20",
+      "type": "text",
+      "slot": "title",
+      "position": {
+        "x": 115,
+        "y": 191
+      },
+      "size": {
+        "width": 378,
+        "height": 231
+      },
+      "style": {
+        "fontSize": 50,
+        "fontFamily": "Brittany",
+        "color": "#000000",
+        "textAlign": "left",
+        "zIndex": 20
+      },
+      "constraints": {
+        "maxChars": 50,
+        "overflowStrategy": "auto-scale"
+      },
+      "exampleContent": "ProductReview"
+    },
+    {
+      "id": "text-21",
+      "type": "text",
+      "slot": "text-textbox-25",
+      "position": {
+        "x": 156,
+        "y": 753
+      },
+      "size": {
+        "width": 318,
+        "height": 38
+      },
+      "style": {
+        "fontSize": 21,
+        "fontFamily": "TT Norms",
+        "color": "#000000",
+        "textAlign": "left",
+        "zIndex": 21
+      },
+      "constraints": {
+        "maxChars": 50,
+        "overflowStrategy": "auto-scale"
+      },
+      "exampleContent": "Olivia Wilson"
+    },
+    {
+      "id": "bg-22",
+      "type": "background",
+      "slot": "decoration-22",
+      "position": {
+        "x": 6,
+        "y": 3
+      },
+      "size": {
+        "width": 264,
+        "height": 539
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 22
+      },
+      "optional": false
+    },
+    {
+      "id": "image-23",
+      "type": "image",
+      "slot": "main-image",
+      "position": {
+        "x": 19,
+        "y": 16
+      },
+      "size": {
+        "width": 236,
+        "height": 512
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 23
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-24",
+      "type": "background",
+      "slot": "decoration-24",
+      "position": {
+        "x": 118,
+        "y": 21
+      },
+      "size": {
+        "width": 37,
+        "height": 5
+      },
+      "style": {
+        "backgroundColor": "#F0E9E3",
+        "zIndex": 24
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-25",
+      "type": "background",
+      "slot": "decoration-25",
+      "position": {
+        "x": 166,
+        "y": 20
+      },
+      "size": {
+        "width": 7,
+        "height": 7
+      },
+      "style": {
+        "backgroundColor": "#F0E9E3",
+        "zIndex": 25
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-26",
+      "type": "background",
+      "slot": "decoration-26",
+      "position": {
+        "x": 0,
+        "y": 72
+      },
+      "size": {
+        "width": 3,
+        "height": 22
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 26
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-27",
+      "type": "background",
+      "slot": "decoration-27",
+      "position": {
+        "x": 0,
+        "y": 111
+      },
+      "size": {
+        "width": 3,
+        "height": 40
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 27
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-28",
+      "type": "background",
+      "slot": "decoration-28",
+      "position": {
+        "x": 0,
+        "y": 160
+      },
+      "size": {
+        "width": 3,
+        "height": 41
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 28
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-29",
+      "type": "background",
+      "slot": "decoration-29",
+      "position": {
+        "x": 272,
+        "y": 124
+      },
+      "size": {
+        "width": 3,
+        "height": 65
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 29
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-30",
+      "type": "background",
+      "slot": "decoration-30",
+      "position": {
+        "x": 3,
+        "y": 0
+      },
+      "size": {
+        "width": 269,
+        "height": 544
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 30
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-31",
+      "type": "background",
+      "slot": "decoration-31",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 225,
+        "height": 140
+      },
+      "style": {
+        "backgroundColor": "#FFFFFF",
+        "zIndex": 31
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-32",
+      "type": "background",
+      "slot": "decoration-32",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 667,
+        "height": 666
+      },
+      "style": {
+        "backgroundColor": "#FFFFFF",
+        "zIndex": 32
+      },
+      "optional": false
+    },
+    {
+      "id": "image-1",
+      "type": "background",
+      "slot": "background-image",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 1080,
+        "height": 1080
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 1,
+        "borderRadius": 540
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-2",
+      "type": "background",
+      "slot": "decoration-2",
+      "position": {
+        "x": 6,
+        "y": 3
+      },
+      "size": {
+        "width": 264,
+        "height": 539
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 2
+      },
+      "optional": false
+    },
+    {
+      "id": "image-3",
+      "type": "image",
+      "slot": "main-image",
+      "position": {
+        "x": 19,
+        "y": 16
+      },
+      "size": {
+        "width": 236,
+        "height": 512
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 3
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-4",
+      "type": "background",
+      "slot": "decoration-4",
+      "position": {
+        "x": 118,
+        "y": 21
+      },
+      "size": {
+        "width": 37,
+        "height": 5
+      },
+      "style": {
+        "backgroundColor": "#F0E9E3",
+        "zIndex": 4
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-5",
+      "type": "background",
+      "slot": "decoration-5",
+      "position": {
+        "x": 166,
+        "y": 20
+      },
+      "size": {
+        "width": 7,
+        "height": 7
+      },
+      "style": {
+        "backgroundColor": "#F0E9E3",
+        "zIndex": 5
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-6",
+      "type": "background",
+      "slot": "decoration-6",
+      "position": {
+        "x": 0,
+        "y": 72
+      },
+      "size": {
+        "width": 3,
+        "height": 22
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 6
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-7",
+      "type": "background",
+      "slot": "decoration-7",
+      "position": {
+        "x": 0,
+        "y": 111
+      },
+      "size": {
+        "width": 3,
+        "height": 40
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 7
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-8",
+      "type": "background",
+      "slot": "decoration-8",
+      "position": {
+        "x": 0,
+        "y": 160
+      },
+      "size": {
+        "width": 3,
+        "height": 41
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 8
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-9",
+      "type": "background",
+      "slot": "decoration-9",
+      "position": {
+        "x": 272,
+        "y": 124
+      },
+      "size": {
+        "width": 3,
+        "height": 65
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 9
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-10",
+      "type": "background",
+      "slot": "decoration-10",
+      "position": {
+        "x": 3,
+        "y": 0
+      },
+      "size": {
+        "width": 269,
+        "height": 544
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 10
+      },
+      "optional": false
+    },
+    {
+      "id": "image-11",
+      "type": "image",
+      "slot": "main-image",
+      "position": {
+        "x": 108,
+        "y": 656
+      },
+      "size": {
+        "width": 550,
+        "height": 213
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 11
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-12",
+      "type": "background",
+      "slot": "decoration-12",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 225,
+        "height": 140
+      },
+      "style": {
+        "backgroundColor": "#FFFFFF",
+        "zIndex": 12
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-13",
+      "type": "background",
+      "slot": "decoration-13",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 667,
+        "height": 666
+      },
+      "style": {
+        "backgroundColor": "#FFFFFF",
+        "zIndex": 13
+      },
+      "optional": false
+    },
+    {
+      "id": "image-14",
+      "type": "image",
+      "slot": "avatar-image",
+      "position": {
+        "x": 157,
+        "y": 530
+      },
+      "size": {
+        "width": 30,
+        "height": 28
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 14,
+        "borderRadius": 15
+      },
+      "optional": false
+    },
+    {
+      "id": "image-15",
+      "type": "image",
+      "slot": "avatar-image",
+      "position": {
+        "x": 195,
+        "y": 530
+      },
+      "size": {
+        "width": 30,
+        "height": 28
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 15,
+        "borderRadius": 15
+      },
+      "optional": false
+    },
+    {
+      "id": "image-16",
+      "type": "image",
+      "slot": "avatar-image",
+      "position": {
+        "x": 232,
+        "y": 530
+      },
+      "size": {
+        "width": 30,
+        "height": 28
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 16,
+        "borderRadius": 15
+      },
+      "optional": false
+    },
+    {
+      "id": "image-17",
+      "type": "image",
+      "slot": "avatar-image",
+      "position": {
+        "x": 269,
+        "y": 530
+      },
+      "size": {
+        "width": 30,
+        "height": 28
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 17,
+        "borderRadius": 15
+      },
+      "optional": false
+    },
+    {
+      "id": "image-18",
+      "type": "image",
+      "slot": "avatar-image",
+      "position": {
+        "x": 307,
+        "y": 530
+      },
+      "size": {
+        "width": 30,
+        "height": 28
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 18,
+        "borderRadius": 15
+      },
+      "optional": false
+    },
+    {
+      "id": "text-19",
+      "type": "text",
+      "slot": "review",
+      "position": {
+        "x": 156,
+        "y": 573
+      },
+      "size": {
+        "width": 461,
+        "height": 155
+      },
+      "style": {
+        "fontSize": 21,
+        "fontFamily": "TT Norms",
+        "color": "#000000",
+        "textAlign": "left",
+        "zIndex": 19
+      },
+      "constraints": {
+        "maxChars": 256,
+        "overflowStrategy": "auto-scale"
+      },
+      "exampleContent": "I love using these products. There is no sticky feeling after applying the lotion. Now I can use thi"
+    },
+    {
+      "id": "text-20",
+      "type": "text",
+      "slot": "title",
+      "position": {
+        "x": 115,
+        "y": 191
+      },
+      "size": {
+        "width": 378,
+        "height": 231
+      },
+      "style": {
+        "fontSize": 50,
+        "fontFamily": "Brittany",
+        "color": "#000000",
+        "textAlign": "left",
+        "zIndex": 20
+      },
+      "constraints": {
+        "maxChars": 50,
+        "overflowStrategy": "auto-scale"
+      },
+      "exampleContent": "ProductReview"
+    },
+    {
+      "id": "text-21",
+      "type": "text",
+      "slot": "text-textbox-25",
+      "position": {
+        "x": 156,
+        "y": 753
+      },
+      "size": {
+        "width": 318,
+        "height": 38
+      },
+      "style": {
+        "fontSize": 21,
+        "fontFamily": "TT Norms",
+        "color": "#000000",
+        "textAlign": "left",
+        "zIndex": 21
+      },
+      "constraints": {
+        "maxChars": 50,
+        "overflowStrategy": "auto-scale"
+      },
+      "exampleContent": "Olivia Wilson"
+    },
+    {
+      "id": "bg-22",
+      "type": "background",
+      "slot": "decoration-22",
+      "position": {
+        "x": 6,
+        "y": 3
+      },
+      "size": {
+        "width": 264,
+        "height": 539
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 22
+      },
+      "optional": false
+    },
+    {
+      "id": "image-23",
+      "type": "image",
+      "slot": "main-image",
+      "position": {
+        "x": 19,
+        "y": 16
+      },
+      "size": {
+        "width": 236,
+        "height": 512
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 23
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-24",
+      "type": "background",
+      "slot": "decoration-24",
+      "position": {
+        "x": 118,
+        "y": 21
+      },
+      "size": {
+        "width": 37,
+        "height": 5
+      },
+      "style": {
+        "backgroundColor": "#F0E9E3",
+        "zIndex": 24
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-25",
+      "type": "background",
+      "slot": "decoration-25",
+      "position": {
+        "x": 166,
+        "y": 20
+      },
+      "size": {
+        "width": 7,
+        "height": 7
+      },
+      "style": {
+        "backgroundColor": "#F0E9E3",
+        "zIndex": 25
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-26",
+      "type": "background",
+      "slot": "decoration-26",
+      "position": {
+        "x": 0,
+        "y": 72
+      },
+      "size": {
+        "width": 3,
+        "height": 22
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 26
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-27",
+      "type": "background",
+      "slot": "decoration-27",
+      "position": {
+        "x": 0,
+        "y": 111
+      },
+      "size": {
+        "width": 3,
+        "height": 40
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 27
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-28",
+      "type": "background",
+      "slot": "decoration-28",
+      "position": {
+        "x": 0,
+        "y": 160
+      },
+      "size": {
+        "width": 3,
+        "height": 41
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 28
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-29",
+      "type": "background",
+      "slot": "decoration-29",
+      "position": {
+        "x": 272,
+        "y": 124
+      },
+      "size": {
+        "width": 3,
+        "height": 65
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 29
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-30",
+      "type": "background",
+      "slot": "decoration-30",
+      "position": {
+        "x": 3,
+        "y": 0
+      },
+      "size": {
+        "width": 269,
+        "height": 544
+      },
+      "style": {
+        "backgroundColor": "#B88F91",
+        "zIndex": 30
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-31",
+      "type": "background",
+      "slot": "decoration-31",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 225,
+        "height": 140
+      },
+      "style": {
+        "backgroundColor": "#FFFFFF",
+        "zIndex": 31
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-32",
+      "type": "background",
+      "slot": "decoration-32",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 667,
+        "height": 666
+      },
+      "style": {
+        "backgroundColor": "#FFFFFF",
+        "zIndex": 32
+      },
+      "optional": false
+    }
+  ]
+}

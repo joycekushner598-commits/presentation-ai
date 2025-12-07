@@ -137,7 +137,7 @@ export const usePresentationState = create<PresentationState>((set) => ({
   setShouldShowExitHeader: (update) => set({ shouldShowExitHeader: update }),
   thumbnailUrl: undefined,
   setThumbnailUrl: (url) => set({ thumbnailUrl: url }),
-  numSlides: 5,
+  numSlides: 1,
   language: "en-US",
   pageStyle: "default",
   showTemplates: false,

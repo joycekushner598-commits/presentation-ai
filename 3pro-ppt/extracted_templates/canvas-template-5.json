@@ -1,0 +1,352 @@
+{
+  "size": {
+    "width": 1080,
+    "height": 1920
+  },
+  "elements": [
+    {
+      "id": "image-1",
+      "type": "background",
+      "slot": "background-image",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 1080,
+        "height": 1920
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 1
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-2",
+      "type": "background",
+      "slot": "decoration-2",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 140,
+        "height": 86
+      },
+      "style": {
+        "backgroundColor": "#FFFAF6",
+        "zIndex": 2
+      },
+      "optional": false
+    },
+    {
+      "id": "text-3",
+      "type": "text",
+      "slot": "text-textbox-5",
+      "position": {
+        "x": 0,
+        "y": -8
+      },
+      "size": {
+        "width": 140,
+        "height": 94
+      },
+      "style": {
+        "fontSize": 18,
+        "fontFamily": "Arial",
+        "color": "#000000",
+        "textAlign": "center",
+        "zIndex": 3
+      },
+      "constraints": {
+        "maxChars": 50,
+        "overflowStrategy": "auto-scale"
+      },
+      "exampleContent": "Example text"
+    },
+    {
+      "id": "image-4",
+      "type": "image",
+      "slot": "main-image",
+      "position": {
+        "x": 249,
+        "y": 761
+      },
+      "size": {
+        "width": 262,
+        "height": 47
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 4
+      },
+      "optional": false
+    },
+    {
+      "id": "text-5",
+      "type": "text",
+      "slot": "text-textbox-7",
+      "position": {
+        "x": 249,
+        "y": 839
+      },
+      "size": {
+        "width": 412,
+        "height": 41
+      },
+      "style": {
+        "fontSize": 20,
+        "fontFamily": "Open Sans",
+        "color": "#000000",
+        "textAlign": "left",
+        "zIndex": 5
+      },
+      "constraints": {
+        "maxChars": 50,
+        "overflowStrategy": "auto-scale"
+      },
+      "exampleContent": "Ameli, California"
+    },
+    {
+      "id": "text-6",
+      "type": "text",
+      "slot": "review",
+      "position": {
+        "x": 249,
+        "y": 917
+      },
+      "size": {
+        "width": 611,
+        "height": 73
+      },
+      "style": {
+        "fontSize": 20,
+        "fontFamily": "Open Sans Light",
+        "color": "#000000",
+        "textAlign": "left",
+        "zIndex": 6
+      },
+      "constraints": {
+        "maxChars": 156,
+        "overflowStrategy": "auto-scale"
+      },
+      "exampleContent": "Can't stop raving about this product. Seriously, pick it up and thank me later"
+    },
+    {
+      "id": "bg-7",
+      "type": "background",
+      "slot": "decoration-7",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 140,
+        "height": 86
+      },
+      "style": {
+        "backgroundColor": "#FFFAF6",
+        "zIndex": 7
+      },
+      "optional": false
+    },
+    {
+      "id": "text-8",
+      "type": "text",
+      "slot": "text-textbox-5",
+      "position": {
+        "x": 0,
+        "y": -8
+      },
+      "size": {
+        "width": 140,
+        "height": 94
+      },
+      "style": {
+        "fontSize": 18,
+        "fontFamily": "Arial",
+        "color": "#000000",
+        "textAlign": "center",
+        "zIndex": 8
+      },
+      "constraints": {
+        "maxChars": 50,
+        "overflowStrategy": "auto-scale"
+      },
+      "exampleContent": "Example text"
+    },
+    {
+      "id": "image-1",
+      "type": "background",
+      "slot": "background-image",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 1080,
+        "height": 1920
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 1
+      },
+      "optional": false
+    },
+    {
+      "id": "bg-2",
+      "type": "background",
+      "slot": "decoration-2",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 140,
+        "height": 86
+      },
+      "style": {
+        "backgroundColor": "#FFFAF6",
+        "zIndex": 2
+      },
+      "optional": false
+    },
+    {
+      "id": "text-3",
+      "type": "text",
+      "slot": "text-textbox-5",
+      "position": {
+        "x": 0,
+        "y": -8
+      },
+      "size": {
+        "width": 140,
+        "height": 94
+      },
+      "style": {
+        "fontSize": 18,
+        "fontFamily": "Arial",
+        "color": "#000000",
+        "textAlign": "center",
+        "zIndex": 3
+      },
+      "constraints": {
+        "maxChars": 50,
+        "overflowStrategy": "auto-scale"
+      },
+      "exampleContent": "Example text"
+    },
+    {
+      "id": "image-4",
+      "type": "image",
+      "slot": "main-image",
+      "position": {
+        "x": 249,
+        "y": 761
+      },
+      "size": {
+        "width": 262,
+        "height": 47
+      },
+      "style": {
+        "objectFit": "cover",
+        "zIndex": 4
+      },
+      "optional": false
+    },
+    {
+      "id": "text-5",
+      "type": "text",
+      "slot": "text-textbox-7",
+      "position": {
+        "x": 249,
+        "y": 839
+      },
+      "size": {
+        "width": 412,
+        "height": 41
+      },
+      "style": {
+        "fontSize": 20,
+        "fontFamily": "Open Sans",
+        "color": "#000000",
+        "textAlign": "left",
+        "zIndex": 5
+      },
+      "constraints": {
+        "maxChars": 50,
+        "overflowStrategy": "auto-scale"
+      },
+      "exampleContent": "Ameli, California"
+    },
+    {
+      "id": "text-6",
+      "type": "text",
+      "slot": "review",
+      "position": {
+        "x": 249,
+        "y": 917
+      },
+      "size": {
+        "width": 611,
+        "height": 73
+      },
+      "style": {
+        "fontSize": 20,
+        "fontFamily": "Open Sans Light",
+        "color": "#000000",
+        "textAlign": "left",
+        "zIndex": 6
+      },
+      "constraints": {
+        "maxChars": 156,
+        "overflowStrategy": "auto-scale"
+      },
+      "exampleContent": "Can't stop raving about this product. Seriously, pick it up and thank me later"
+    },
+    {
+      "id": "bg-7",
+      "type": "background",
+      "slot": "decoration-7",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 140,
+        "height": 86
+      },
+      "style": {
+        "backgroundColor": "#FFFAF6",
+        "zIndex": 7
+      },
+      "optional": false
+    },
+    {
+      "id": "text-8",
+      "type": "text",
+      "slot": "text-textbox-5",
+      "position": {
+        "x": 0,
+        "y": -8
+      },
+      "size": {
+        "width": 140,
+        "height": 94
+      },
+      "style": {
+        "fontSize": 18,
+        "fontFamily": "Arial",
+        "color": "#000000",
+        "textAlign": "center",
+        "zIndex": 8
+      },
+      "constraints": {
+        "maxChars": 50,
+        "overflowStrategy": "auto-scale"
+      },
+      "exampleContent": "Example text"
+    }
+  ]
+}
